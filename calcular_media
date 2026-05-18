@@ -5,28 +5,38 @@ class Estudante:
         self.persistencia = persistencia
 
     def calcular_media(self):
-        return (self.foco + self.dedicacao + self.persistencia) / 3
-
-while True:
-    try:
-        foco = float(input("Digite o nível de foco (0 a 10): "))
-        dedicacao = float(input("Digite o nível de dedicação (0 a 10): "))
-        persistencia = float(input("Digite o nível de persistência (0 a 10): "))
-
-        if not all(0 <= valor <= 10 for valor in [foco, dedicacao, persistencia]):
-            raise ValueError("Digite um número entre 0 e 10")
-
-        estudante = Estudante(foco, dedicacao, persistencia)
-        media = estudante.calcular_media()
-
-        if media < 6:
-            print("Reprovado")
-        elif media >= 6 and media <= 10:
-            print("Aprovado")
-        else:
+        media = (self.foco + self.dedicacao + self.persistencia) / 3
+        if media > 10:
             raise ValueError("Erro: A média não pode ser maior que 10")
+        return media
 
-        break  # Sai do loop se a média for válida
-    
-    except ValueError as e:
-        print(e)
+
+def avaliar_estudante(foco, dedicacao, persistencia):
+    if not all(0 <= valor <= 10 for valor in [foco, dedicacao, persistencia]):
+        raise ValueError("Digite um número entre 0 e 10")
+
+    estudante = Estudante(foco, dedicacao, persistencia)
+    media = estudante.calcular_media()
+
+    if media < 6:
+        return "Reprovado"
+    return "Aprovado"
+
+
+def main():
+    while True:
+        try:
+            foco = float(input("Digite o nível de foco (0 a 10): "))
+            dedicacao = float(input("Digite o nível de dedicação (0 a 10): "))
+            persistencia = float(input("Digite o nível de persistência (0 a 10): "))
+
+            resultado = avaliar_estudante(foco, dedicacao, persistencia)
+            print(resultado)
+            break
+
+        except ValueError as e:
+            print(e)
+
+
+if __name__ == "__main__":
+    main()
